@@ -9,23 +9,26 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return inertia("Index", [
-            "tasks" => Task::get()
+        return inertia("Tasks/Index", [
+            "tasks" => Task::query()->filter(request(['status', 'order']))->paginate(10)->withQueryString(),
+            "query" => request()->query()
         ]);
     }
 
     public function create()
     {
-        return inertia('Create');
+        return inertia('Tasks/Create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "title" => ['required'],
+            "title"       => ['required'],
             "description" => ['required'],
-            "status" => ['required'],
+            "status"      => ['required'],
         ]);
+
+        $validated["user_id"] = auth()->id();
 
         Task::create($validated);
 
@@ -34,14 +37,14 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        return inertia("Show", [
+        return inertia("Tasks/Show", [
             "task" => $task
         ]);
     }
 
     public function edit(Task $task)
     {
-        return inertia("Edit", [
+        return inertia("Tasks/Edit", [
             "task" => $task
         ]);
     }
