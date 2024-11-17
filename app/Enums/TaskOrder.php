@@ -5,7 +5,8 @@ namespace App\Enums;
 enum TaskOrder:string
 {
     case Title = "title";
-    case Date = "date";
+    case Oldest = "oldest";
+    case Latest = "latest";
 }
 
 ?>

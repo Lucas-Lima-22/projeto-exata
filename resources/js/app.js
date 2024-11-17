@@ -2,10 +2,8 @@ import "./bootstrap";
 import "../css/app.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import Layout from "./Layouts/Layout.vue";
-
 import { createApp, h } from "vue";
-import { createInertiaApp } from "@inertiajs/vue3";
-import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import { createInertiaApp, Head } from "@inertiajs/vue3";
 
 createInertiaApp({
     title: (title) => title,
@@ -18,6 +16,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .component("Head", Head)
             .mount(el);
     },
 });

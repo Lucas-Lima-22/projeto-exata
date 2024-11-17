@@ -14,118 +14,160 @@ const form = useForm({
 </script>
 
 <template>
+    <Head>
+        <title>Settings</title>
+    </Head>
     <div class="h-screen bg-neutral-100 grid place-items-center">
-        <form
-            @submit.prevent="
-                form.transform((data) => ({
-                    ...data,
-                    password: data.password?.length ? data.password : undefined,
-                })).put(`/users/${user.id}`)
-            "
-            class="w-full max-w-md bg-neutral-50 rounded-lg shadow-lg border p-8 space-y-8"
+        <div
+            class="w-full sm:max-w-md bg-neutral-50 rounded-lg shadow-lg divide-y"
         >
-            <div class="space-y-2">
-                <div class="flex justify-between">
-                    <label for="profile" class="text-sm font-medium">
-                        PROFILE
-                    </label>
-                    <small class="text-red-500">
-                        {{ form.errors.profile }}
-                    </small>
-                </div>
-                <select
-                    id="profile"
-                    class="w-full p-4 border rounded"
-                    v-model="form.profile"
-                >
-                    <option value="guest">Guest</option>
-                    <option value="admin">Admin</option>
-                </select>
+            <div class="p-4 sm:p-8">
+                <h2 class="text-2xl">Manage Account</h2>
+                <h3 class="opacity-50">
+                    Update your details or delete your profile.
+                </h3>
             </div>
-
-            <div class="space-y-2">
-                <div class="flex justify-between">
-                    <label for="email" class="text-sm font-medium">
-                        EMAIL
-                    </label>
-                    <small class="text-red-500">
-                        {{ form.errors.email }}
-                    </small>
-                </div>
-                <input
-                    type="email"
-                    id="email"
-                    class="p-4 border w-full"
-                    v-model="form.email"
-                    placeholder="Enter your email"
-                    required
-                />
-            </div>
-
-            <div class="space-y-2">
-                <div class="flex justify-between">
-                    <label for="current_password" class="text-sm font-medium">
-                        PASSWORD
-                    </label>
-                    <small class="text-red-500">
-                        {{ form.errors.current_password }}
-                    </small>
-                </div>
-                <input
-                    type="password"
-                    id="current_password"
-                    class="p-4 border w-full"
-                    v-model="form.current_password"
-                    placeholder="Enter your current password"
-                    required
-                />
-            </div>
-
-            <div class="space-y-2">
-                <div class="flex justify-between">
-                    <label for="password" class="text-sm font-medium">
-                        NEW PASSWORD
-                    </label>
-                    <small class="text-red-500">
-                        {{ form.errors.password }}
-                    </small>
-                </div>
-                <input
-                    type="password"
-                    id="password"
-                    class="p-4 border w-full"
-                    v-model="form.password"
-                    placeholder="Create a new password"
-                />
-                <small class="opacity-50">
-                    Leave blank if you don't want to change the password.
-                </small>
-            </div>
-
-            <div class="space-y-4 text-neutral-50 font-medium">
-                <button type="submit" class="bg-blue-500 w-full py-4 rounded">
-                    UPDATE
-                </button>
-                <Link
-                    href="/"
-                    class="block rounded text-center bg-neutral-500 py-4"
-                >
-                    CANCEL
-                </Link>
-            </div>
-            <div
-                class="rounded-box border border-red-500 bg-red-100 p-4 text-red-500"
+            <form
+                @submit.prevent="
+                    form.transform((data) => ({
+                        ...data,
+                        password: data.password?.length
+                            ? data.password
+                            : undefined,
+                    })).put(`/users/${user.id}`)
+                "
+                class="p-4 space-y-4 sm:p-8 sm:space-y-8"
             >
-                <p>If you wish to permanently remove your account:</p>
-                <Link
-                    as="BUTTON"
-                    method="DELETE"
-                    :href="`/users/${user.id}`"
-                    class="font-medium"
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <label for="profile" class="text-sm font-medium">
+                            PROFILE
+                        </label>
+                        <small class="text-xs text-red-500">
+                            {{ form.errors.profile }}
+                        </small>
+                    </div>
+                    <select
+                        id="profile"
+                        :class="[
+                            'p-4 border w-full rounded-lg',
+                            { 'border-red-500': form.errors.profile },
+                        ]"
+                        v-model="form.profile"
+                        @change="form.clearErrors('profile')"
+                        required
+                    >
+                        <option value="guest">Guest</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <label for="email" class="text-sm font-medium">
+                            EMAIL
+                        </label>
+                        <small class="text-xs text-red-500">
+                            {{ form.errors.email }}
+                        </small>
+                    </div>
+                    <input
+                        type="text"
+                        id="email"
+                        :class="[
+                            'p-4 border w-full rounded-lg',
+                            { 'border-red-500': form.errors.email },
+                        ]"
+                        placeholder="Enter your email"
+                        v-model="form.email"
+                        @change="form.clearErrors('email')"
+                        required
+                    />
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <label
+                            for="current_password"
+                            class="text-sm font-medium"
+                        >
+                            PASSWORD
+                        </label>
+                        <small class="text-xs text-red-500">
+                            {{ form.errors.current_password }}
+                        </small>
+                    </div>
+                    <input
+                        type="password"
+                        id="current_password"
+                        :class="[
+                            'p-4 border w-full rounded-lg',
+                            { 'border-red-500': form.errors.current_password },
+                        ]"
+                        placeholder="Enter your current password"
+                        v-model="form.current_password"
+                        @change="form.clearErrors('current_password')"
+                        required
+                    />
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <label for="password" class="text-sm font-medium">
+                            NEW PASSWORD
+                        </label>
+                        <small class="text-red-500">
+                            {{ form.errors.password }}
+                        </small>
+                    </div>
+                    <input
+                        type="password"
+                        id="password"
+                        :class="[
+                            'p-4 border w-full rounded-lg',
+                            { 'border-red-500': form.errors.password },
+                        ]"
+                        placeholder="Create a new password"
+                        v-model="form.password"
+                        @change="form.clearErrors('password')"
+                    />
+                    <small class="opacity-50">
+                        Leave blank if you don't want to change.
+                    </small>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <button
+                        type="submit"
+                        class="bg-cyan-500 hover:bg-cyan-600 rounded-lg p-4"
+                        :disabled="form.processing"
+                    >
+                        <span class="text-neutral-50 font-medium">
+                            UPDATE
+                        </span>
+                    </button>
+                    <Link
+                        href="/"
+                        class="bg-neutral-300 hover:bg-neutral-400 rounded-lg p-4 text-center"
+                    >
+                        <span class="font-medium">CANCEL</span>
+                    </Link>
+                </div>
+
+                <div
+                    class="rounded-lg border border-red-500 bg-red-100 p-4 text-red-500"
                 >
-                    Delete Account
-                </Link>
-            </div>
-        </form>
+                    <p>If you wish to permanently remove your account:</p>
+                    <Link
+                        as="BUTTON"
+                        method="DELETE"
+                        :href="`/users/${user.id}`"
+                        class="font-medium"
+                    >
+                        Delete Account
+                    </Link>
+                </div>
+            </form>
+        </div>
     </div>
 </template>

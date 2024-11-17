@@ -21,20 +21,19 @@ const links = computed(() => {
 });
 </script>
 <template>
-    <div class="inline-flex border divide-x bg-neutral-50">
-        <Link
-            v-for="(link, index) in links"
-            :key="index"
-            :href="link.url"
-            :class="[
-                'py-4 px-6',
-                {
-                    'bg-neutral-800 text-neutral-50 pointer-events-none': link.active,
+    <div class="col-span-full text-center">
+        <div class="space-x-4">
+            <Link
+                v-for="(link, index) in links"
+                :key="index"
+                :href="link.url"
+                :class="{
+                    'underline pointer-events-none': link.active,
                     'pointer-events-none opacity-50': !link.url,
-                },
-            ]"
-        >
-            {{ link.label }}
-        </Link>
+                }"
+            >
+                {{ link.label }}
+            </Link>
+        </div>
     </div>
 </template>

@@ -16,13 +16,13 @@ class SessionController extends Controller
     {
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
-            'password' => ['required', "min:6"],
+            'password' => ['required'],
         ]);
  
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->intended();
+            return redirect("/")->with("message", "You are now logged in.");
         }
  
         return back()->withErrors([
@@ -38,6 +38,6 @@ class SessionController extends Controller
 
         request()->session()->regenerateToken();
 
-        return redirect("login");
+        return redirect("login")->with("message", "Your account has been deleted successfully.");;
     }
 }

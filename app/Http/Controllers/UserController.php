@@ -16,6 +16,21 @@ class UserController extends Controller
         return inertia('Public/Register');
     }
 
+     public function store(Request $request)
+    {
+        $validated = $request->validate([
+            "profile"  => ["required", Rule::enum(UserProfille::class)],
+            "email"    => ["required", "email", Rule::unique('users')],
+            "password" => ["required", "min:6"],
+        ]);
+
+        $user = User::create($validated);
+
+        Auth::login($user);
+
+        return redirect("/")->with("message", "Your profile has been created successfully.");
+    }
+
     public function edit(User $user)
     {
         return inertia("Users/Edit", [
@@ -34,22 +49,7 @@ class UserController extends Controller
 
         $user->update(Arr::except($validated, 'current_password'));
 
-        return redirect("/");
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            "profile"  => ["required", Rule::enum(UserProfille::class)],
-            "email"    => ["required", "email"],
-            "password" => ["required", "min:6"],
-        ]);
-
-        $user = User::create($validated);
-
-        Auth::login($user);
-
-        return redirect("/");
+        return redirect("/")->with("message", "Your profile has been updated successfully.");
     }
 
     public function destroy(User $user)

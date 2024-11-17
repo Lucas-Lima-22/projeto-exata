@@ -46,7 +46,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function isGuest():bool
+    public function isAdmin(): bool
+    {
+        return $this->profile === "admin";
+    }
+
+    public function isGuest(): bool
     {
         return $this->profile === "guest";
     }

@@ -1,28 +1,30 @@
 <?php
 
 use App\Http\Controllers\SessionController;
-use App\Models\Task;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/', [TaskController::class, "index"]);
-    Route::get('/tasks/create', [TaskController::class, 'create']);
-    Route::post('/tasks', [TaskController::class, 'store']);
-    Route::get('/tasks/{task}', [TaskController::class, 'show']);
-    Route::get('/tasks/{task}/edit', [TaskController::class, 'edit']);
-    Route::put('/tasks/{task}', [TaskController::class, 'update']);
-    Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
-
-    Route::get("/users/{user}/edit", [UserController::class, "edit"]);
-    Route::put("/users/{user}", [UserController::class, "update"]);
-    Route::delete("/users/{user}", [UserController::class, "destroy"]);
+Route::controller(TaskController::class)->group(function () {
+    Route::get('/', "index")->middleware("auth");
+    Route::get('/tasks/create', 'create')->middleware("auth");
+    Route::post('/tasks', 'store')->middleware("auth");
+    Route::get('/tasks/{task}', 'show')->middleware("can:view,task");
+    Route::get('/tasks/{task}/edit', 'edit')->middleware("can:edit,task");
+    Route::put('/tasks/{task}', 'update')->middleware("can:update,task");
+    Route::delete('/tasks/{task}', 'destroy')->middleware("can:delete,task");
 });
 
-Route::get('/register', [UserController::class, "create"]);
-Route::post('/register', [UserController::class, "store"]);
+Route::controller(UserController::class)->group(function () {
+    Route::get('/register', "create")->middleware("guest");
+    Route::post('/register', "store")->middleware("guest");
+    Route::get("/users/{user}/edit", "edit")->middleware(["auth", "can:edit,user"]);
+    Route::put("/users/{user}", "update")->middleware(["auth", "can:update,user"]);
+    Route::delete("/users/{user}", "destroy")->middleware(["auth", "can:delete,user"]);
+});
 
-Route::get("/login", [SessionController::class, "create"])->name("login");
-Route::post("/login", [SessionController::class, "store"]);
-Route::delete("/logout", [SessionController::class, "destroy"]);
+Route::controller(SessionController::class)->group(function () {
+    Route::get("/login", "create")->middleware("guest")->name("login");
+    Route::post("/login", "store")->middleware("guest");
+    Route::delete("/logout", "destroy")->middleware("auth");
+});

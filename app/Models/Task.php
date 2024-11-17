@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskOrder;
 use App\Enums\TaskStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -34,16 +35,25 @@ class Task extends Model
                 "order" => [Rule::enum(TaskOrder::class)]
             ]);
 
-            $search = ($search === 'date') ? 'created_at' : $search;
+            $query->reOrder();
 
-            $query->orderBy($search);
+            switch ($search) {
+                case "oldest":
+                    $query->oldest();
+                    break;
+                case "latest":
+                    $query->latest();
+                    break;
+                default:
+                    $query->orderBy($search);
+            }
         });
     }
 
     protected function casts(): array
     {
         return [
-            "created_at" => "datetime:d/m/Y - h:i:s"
+            "created_at" => "datetime:d/m/Y"
         ];
     }
 }

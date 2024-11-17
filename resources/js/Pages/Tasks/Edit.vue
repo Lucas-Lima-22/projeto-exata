@@ -13,8 +13,13 @@ const form = useForm({
 </script>
 
 <template>
+    <Head>
+        <title>Edit Task</title>
+    </Head>
     <div class="h-full grid place-items-center">
-        <div class="w-full max-w-md bg-neutral-50 rounded border divide-y">
+        <div
+            class="w-full sm:max-w-md bg-neutral-50 rounded-lg shadow-lg divide-y"
+        >
             <div class="p-4 sm:p-8">
                 <h2 class="text-2xl">Edit Task</h2>
                 <h3 class="opacity-50">
@@ -26,40 +31,72 @@ const form = useForm({
                 class="p-4 space-y-4 sm:p-8 sm:space-y-8"
             >
                 <div class="space-y-2">
-                    <label for="title" class="text-sm font-medium">TITLE</label>
+                    <div class="flex justify-between">
+                        <label for="title" class="text-sm font-medium">
+                            TITLE
+                        </label>
+                        <small class="text-sm text-red-500">
+                            {{ form.errors.title }}
+                        </small>
+                    </div>
                     <input
                         type="text"
                         id="title"
-                        class="p-4 border w-full"
+                        :class="[
+                            'p-4 border w-full rounded-lg',
+                            { 'border-red-500': form.errors.title },
+                        ]"
                         placeholder="Enter a title"
                         v-model="form.title"
+                        @change="form.clearErrors('title')"
                         required
                     />
                 </div>
                 <div class="space-y-2">
-                    <label for="description" class="text-sm font-medium">
-                        DESCRIPTION
-                    </label>
+                    <div class="flex justify-between">
+                        <label for="description" class="text-sm font-medium">
+                            DESCRIPTION
+                        </label>
+                        <small class="text-sm text-red-500">
+                            {{ form.errors.description }}
+                        </small>
+                    </div>
                     <textarea
                         id="description"
-                        class="p-4 w-full border resize-none"
+                        :class="[
+                            'p-4 border w-full rounded-lg resize-none',
+                            { 'border-red-500': form.errors.description },
+                        ]"
                         rows="5"
                         minlength="1"
                         maxlength="200"
                         placeholder="Enter a description"
                         v-model="form.description"
+                        @change="form.clearErrors('description')"
                         required
                     />
+                    <small class="opacity-50">
+                        {{ form.description?.length ?? 0 }}/200
+                    </small>
                 </div>
                 <div class="space-y-2">
-                    <label for="status" class="text-sm font-medium block">
-                        STATUS
-                    </label>
+                    <div class="flex justify-between">
+                        <label for="status" class="text-sm font-medium">
+                            STATUS
+                        </label>
+                        <small class="text-sm text-red-500">
+                            {{ form.errors.status }}
+                        </small>
+                    </div>
                     <select
                         name="status"
                         id="status"
-                        class="w-full p-4 border"
+                        :class="[
+                            'p-4 border w-full rounded-lg',
+                            { 'border-red-500': form.errors.status },
+                        ]"
                         v-model="form.status"
+                        @change="form.clearErrors('status')"
                         required
                     >
                         <option value="pending">Pending</option>
@@ -70,31 +107,16 @@ const form = useForm({
                 <div class="flex flex-col gap-4">
                     <button
                         type="submit"
-                        class="text-neutral-50 rounded flex overflow-hidden group"
+                        class="bg-cyan-500 hover:bg-cyan-600 rounded-lg p-4"
+                        :disabled="form.processing"
                     >
-                        <div
-                            class="flex-1 p-4 bg-blue-500 group-hover:bg-blue-600"
-                        >
-                            <span class="font-medium">UPDATE</span>
-                        </div>
-                        <div class="p-4 bg-blue-600 group-hover:bg-blue-700">
-                            <i class="fa-solid fa-check" />
-                        </div>
+                        <span class="text-neutral-50 font-medium">UPDATE</span>
                     </button>
                     <Link
                         :href="`/tasks/${task.id}`"
-                        class="rounded flex overflow-hidden group"
+                        class="bg-neutral-300 hover:bg-neutral-400 rounded-lg p-4 text-center"
                     >
-                        <div
-                            class="flex-1 p-4 bg-neutral-200 group-hover:bg-neutral-300 text-center"
-                        >
-                            <span class="font-medium">CANCEL</span>
-                        </div>
-                        <div
-                            class="p-4 bg-neutral-300 group-hover:bg-neutral-400"
-                        >
-                            <i class="fa-solid fa-xmark" />
-                        </div>
+                        <span class="font-medium">CANCEL</span>
                     </Link>
                 </div>
             </form>

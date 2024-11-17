@@ -17,6 +17,9 @@ const handleStatus = (status) => {
 </script>
 
 <template>
+    <Head>
+        <title>{{ task.title }}</title>
+    </Head>
     <div class="h-full grid place-items-center">
         <div
             class="bg-neutral-50 rounded-lg w-full max-w-md p-8 border space-y-8 shadow-lg"
@@ -26,36 +29,35 @@ const handleStatus = (status) => {
 
                 <div class="relative">
                     <button @click="more = !more">
-                        <i class="material-symbols-rounded"> more_horiz </i>
+                        <i class="fa-solid fa-ellipsis fa-lg" />
                     </button>
-                    <ul
+                    <div
                         v-if="more"
                         class="absolute right-0 bg-neutral-100 border rounded-lg shadow-lg z-[1] divide-y"
                     >
-                        <li>
-                            <Link
-                                :href="`/tasks/${task.id}/edit`"
-                                class="flex items-center gap-4 p-4 opacity-50 hover:opacity-100"
-                            >
-                                <i class="fa-regular fa-pen-to-square" />
-                                <span class="font-medium">EDIT</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                as="BUTTON"
-                                method="DELETE"
-                                :href="`/tasks/${task.id}`"
-                                class="flex items-center gap-4 p-4 opacity-50 hover:opacity-100"
-                            >
-                                <i class="fa-regular fa-trash-can" />
-                                <span class="font-medium">DELETE</span>
-                            </Link>
-                        </li>
-                    </ul>
+                        <Link
+                            :href="`/tasks/${task.id}/edit`"
+                            class="flex items-center gap-4 p-4 px-6 opacity-50 hover:opacity-100"
+                        >
+                            <i class="fa-solid fa-pen-to-square" />
+                            <span class="font-medium">EDIT</span>
+                        </Link>
+
+                        <Link
+                            as="BUTTON"
+                            method="DELETE"
+                            :href="`/tasks/${task.id}`"
+                            class="flex items-center gap-4 p-4 px-6 opacity-50 hover:opacity-100"
+                        >
+                            <i class="fa-solid fa-trash" />
+                            <span class="font-medium">DELETE</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
+
             <p class="opacity-50">{{ task.description }}</p>
+
             <div class="flex justify-between items-end">
                 <div class="space-x-2 opacity-50">
                     <i class="fa-regular fa-calendar fa-sm" />
@@ -86,7 +88,7 @@ const handleStatus = (status) => {
                         ]"
                         :disabled="task.status === 'in-progress'"
                     >
-                        In-Progress
+                        In Progress
                     </button>
                     <button
                         @click="() => handleStatus('completed')"
