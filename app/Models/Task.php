@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\TaskOrder;
 use App\Enums\TaskStatus;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -18,10 +17,6 @@ class Task extends Model
 
     protected function scopeFilter($query, $filters)
     {
-        $query->when(auth()->user()->isGuest(), function ($query) {
-            $query->where('user_id', auth()->id());
-        });
-
         $query->when($filters['status'] ?? false, function ($query, $search) {
             request()->validate([
                 "status" => [Rule::enum(TaskStatus::class)]
@@ -45,7 +40,7 @@ class Task extends Model
                     $query->latest();
                     break;
                 default:
-                    $query->orderBy($search);
+                    $query->orderByRaw("title COLLATE NOCASE");
             }
         });
     }

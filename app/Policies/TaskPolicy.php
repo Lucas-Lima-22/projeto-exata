@@ -9,11 +9,31 @@ use Illuminate\Auth\Access\Response;
 class TaskPolicy
 {
     /**
+     * Perform pre-authorization checks.
+     */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    
+        return null;
+    }
+
+    /**
+     * Determine whether the user can view any models.
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->isAdmin();
+    }
+
+    /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->isAdmin() || $user->id === $task->user_id;
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -21,7 +41,7 @@ class TaskPolicy
      */
     public function edit(User $user, Task $task): bool
     {
-        return $user->isAdmin() || $user->id === $task->user_id;
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -29,7 +49,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $user->isAdmin() || $user->id === $task->user_id;
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -37,6 +57,6 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return $user->isAdmin() || $user->id === $task->user_id;
+        return $user->id === $task->user_id;
     }
 }

@@ -28,7 +28,7 @@ const links = computed(() => {
                 :key="index"
                 :href="link.url"
                 :class="{
-                    'underline pointer-events-none': link.active,
+                    'pointer-events-none underline': link.active,
                     'pointer-events-none opacity-50': !link.url,
                 }"
             >

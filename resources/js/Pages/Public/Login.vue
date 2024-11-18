@@ -11,9 +11,9 @@ const form = useForm({
     <Head>
         <title>Login</title>
     </Head>
-    <div class="h-screen bg-neutral-100 grid place-items-center">
+    <div class="grid h-screen place-items-center bg-neutral-100">
         <div
-            class="size-full sm:h-fit sm:max-w-md bg-neutral-50 sm:rounded-lg sm:shadow-lg divide-y"
+            class="size-full divide-y bg-neutral-50 sm:h-fit sm:max-w-md sm:rounded-lg sm:shadow-lg"
         >
             <div class="p-4 sm:p-8">
                 <h2 class="text-2xl">Welcome Back!</h2>
@@ -23,7 +23,7 @@ const form = useForm({
             </div>
             <form
                 @submit.prevent="form.post('/login')"
-                class="p-4 space-y-4 sm:p-8 sm:space-y-8"
+                class="space-y-4 p-4 sm:space-y-8 sm:p-8"
             >
                 <div class="space-y-2">
                     <div class="flex justify-between">
@@ -38,7 +38,7 @@ const form = useForm({
                         type="text"
                         id="email"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.email },
                         ]"
                         placeholder="Enter your email"
@@ -61,7 +61,7 @@ const form = useForm({
                         type="password"
                         id="password"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.password },
                         ]"
                         placeholder="Enter your password"
@@ -74,10 +74,10 @@ const form = useForm({
                 <div class="flex flex-col gap-4">
                     <button
                         type="submit"
-                        class="bg-cyan-500 hover:bg-cyan-600 rounded-lg p-4"
+                        class="rounded-lg bg-cyan-500 p-4 hover:bg-cyan-600"
                         :disabled="form.processing"
                     >
-                        <span class="text-neutral-50 font-medium">LOGIN</span>
+                        <span class="font-medium text-neutral-50">LOGIN</span>
                     </button>
                     <p class="text-center">
                         Don't have an account?

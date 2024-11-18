@@ -12,7 +12,7 @@ class TaskController extends Controller
     public function index()
     {
         return inertia("Tasks/Index", [
-            "tasks" => Task::query()->latest()->filter(request(['status', 'order']))->paginate(10)->withQueryString(),
+            "tasks" => Task::query()->latest()->where("user_id", auth()->id())->filter(request(['status', 'order']))->paginate(10)->withQueryString(),
             "query" => request()->query()
         ]);
     }

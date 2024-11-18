@@ -1,12 +1,12 @@
 <script setup>
 import { computed } from "vue";
 import { useForm, Link } from "@inertiajs/vue3";
-import Task from "@/Components/Task.vue";
+import AdminTask from "@/Components/AdminTask.vue";
 import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     tasks: Object,
-    query: Object,
+    query: Array,
 });
 
 const form = useForm({
@@ -24,19 +24,13 @@ const pagination = computed(() => {
 </script>
 <template>
     <Head>
-        <title>Home</title>
+        <title>Admin</title>
     </Head>
     <div class="h-full">
         <div class="mx-auto max-w-screen-lg space-y-4">
             <div
-                class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+                class="flex flex-col gap-4 sm:flex-row-reverse sm:items-center sm:justify-between"
             >
-                <Link
-                    href="/tasks/create"
-                    class="rounded bg-cyan-500 p-2 text-center hover:bg-cyan-600 sm:w-40"
-                >
-                    <span class="font-medium text-neutral-50">ADD TASK</span>
-                </Link>
                 <form
                     @submit.prevent
                     @change="
@@ -46,13 +40,14 @@ const pagination = computed(() => {
                                     ? undefined
                                     : data.status,
                             order: data.order === '' ? undefined : data.order,
-                        })).get('/')
+                        })).get('/admin')
                     "
                     class="flex gap-4"
                 >
                     <select
                         class="flex-1 rounded border p-2 sm:w-40"
                         v-model="form.status"
+                        :disabled="tasks.data.length === 0 && !query"
                     >
                         <option value="" disabled>Status</option>
                         <option value="all">All</option>
@@ -63,6 +58,7 @@ const pagination = computed(() => {
                     <select
                         class="flex-1 rounded border p-2 sm:w-40"
                         v-model="form.order"
+                        :disabled="tasks.data.length === 0 && !query"
                     >
                         <option value="" disabled>Order By</option>
                         <option value="title">Title</option>
@@ -70,23 +66,36 @@ const pagination = computed(() => {
                         <option value="latest">Newest</option>
                     </select>
                 </form>
+
+                <p class="text-center text-sm opacity-50">
+                    {{ tasks.from }} - {{ tasks.to }} of
+                    {{ tasks.total }} Tasks.
+                </p>
             </div>
 
-            <div
-                v-if="tasks.data.length"
-                class="grid grid-cols-1 gap-4 sm:grid-cols-2"
-            >
-                <Task v-for="task in tasks.data" :key="task.id" :task="task" />
-
+            <div v-if="tasks.data.length" class="space-y-4">
+                <div class="grid grid-cols-1 gap-4 overflow-x-auto">
+                    <AdminTask
+                        v-for="task in tasks.data"
+                        :key="task.id"
+                        :task="task"
+                    />
+                </div>
                 <Pagination
                     v-if="tasks.last_page > 1"
                     :pagination="pagination"
                 />
             </div>
 
+            <div v-else-if="!tasks.data.length && query">
+                <p class="text-center text-lg opacity-50">
+                    There are no {{ query.status }} tasks at the moment.
+                </p>
+            </div>
+
             <div v-else>
                 <p class="text-center text-lg opacity-50">
-                    No tasks were found.
+                    There are no tasks available.
                 </p>
             </div>
         </div>

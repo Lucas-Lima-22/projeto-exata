@@ -8,6 +8,18 @@ use Illuminate\Auth\Access\Response;
 class UserPolicy
 {
     /**
+     * Perform pre-authorization checks.
+     */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    
+        return null;
+    }
+    
+    /**
      * Determine whether the user can edit the model.
      */
     public function edit(User $user, User $model): bool

@@ -20,11 +20,11 @@ const handleStatus = (status) => {
     <Head>
         <title>{{ task.title }}</title>
     </Head>
-    <div class="h-full grid place-items-center">
+    <div class="grid h-full place-items-center">
         <div
-            class="bg-neutral-50 rounded-lg w-full max-w-md p-8 border space-y-8 shadow-lg"
+            class="w-full max-w-md space-y-8 rounded-lg border bg-neutral-50 p-8 shadow-lg"
         >
-            <div class="flex justify-between items-start gap-4">
+            <div class="flex items-start justify-between gap-4">
                 <h2 class="text-2xl">{{ task.title }}</h2>
 
                 <div class="relative">
@@ -33,7 +33,7 @@ const handleStatus = (status) => {
                     </button>
                     <div
                         v-if="more"
-                        class="absolute right-0 bg-neutral-100 border rounded-lg shadow-lg z-[1] divide-y"
+                        class="absolute right-0 z-[1] divide-y rounded-lg border bg-neutral-100 shadow-lg"
                     >
                         <Link
                             :href="`/tasks/${task.id}/edit`"
@@ -58,7 +58,7 @@ const handleStatus = (status) => {
 
             <p class="opacity-50">{{ task.description }}</p>
 
-            <div class="flex justify-between items-end">
+            <div class="flex items-end justify-between">
                 <div class="space-x-2 opacity-50">
                     <i class="fa-regular fa-calendar fa-sm" />
                     <span class="text-sm">
@@ -69,9 +69,9 @@ const handleStatus = (status) => {
                     <button
                         @click="() => handleStatus('pending')"
                         :class="[
-                            'rounded px-2 py-1 text-xs',
+                            'w-20 rounded px-2 py-1 text-xs',
                             task.status === 'pending'
-                                ? 'bg-yellow-500 text-neutral-50 pointer-events-none'
+                                ? 'pointer-events-none bg-yellow-500 text-neutral-50'
                                 : 'bg-neutral-200 opacity-50 hover:opacity-100',
                         ]"
                         :disabled="task.status === 'pending'"
@@ -81,9 +81,9 @@ const handleStatus = (status) => {
                     <button
                         @click="() => handleStatus('in-progress')"
                         :class="[
-                            'rounded px-2 py-1 text-xs',
+                            'w-20 rounded px-2 py-1 text-xs',
                             task.status === 'in-progress'
-                                ? 'bg-blue-500 text-neutral-50 pointer-events-none'
+                                ? 'pointer-events-none bg-blue-500 text-neutral-50'
                                 : 'bg-neutral-200 opacity-50 hover:opacity-100',
                         ]"
                         :disabled="task.status === 'in-progress'"
@@ -93,9 +93,9 @@ const handleStatus = (status) => {
                     <button
                         @click="() => handleStatus('completed')"
                         :class="[
-                            'rounded px-2 py-1 text-xs',
+                            'w-20 rounded px-2 py-1 text-xs',
                             task.status === 'completed'
-                                ? 'bg-green-500 text-neutral-50 pointer-events-none'
+                                ? 'pointer-events-none bg-green-500 text-neutral-50'
                                 : 'bg-neutral-200 opacity-50 hover:opacity-100',
                         ]"
                         :disabled="task.status === 'completed'"

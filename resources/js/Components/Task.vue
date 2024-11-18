@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import StatusTag from "@/Components/StatusTag.vue";
 
 defineProps({
     task: Object,
@@ -9,15 +10,15 @@ defineProps({
 <template>
     <Link
         :href="`/tasks/${task.id}`"
-        class="bg-neutral-50 p-4 space-y-4 rounded-lg border flex flex-col hover:shadow-lg"
+        class="flex flex-col space-y-4 rounded-lg border bg-neutral-50 p-4 hover:shadow-lg"
     >
         <h2 class="text-2xl">{{ task.title }}</h2>
 
-        <p class="opacity-50 line-clamp-3 flex-1">
+        <p class="line-clamp-3 flex-1 opacity-50">
             {{ task.description }}
         </p>
 
-        <div class="flex justify-between items-end">
+        <div class="flex items-end justify-between">
             <div class="space-x-2 opacity-50">
                 <i class="fa-regular fa-calendar fa-sm" />
                 <span class="text-sm">
@@ -25,18 +26,7 @@ defineProps({
                 </span>
             </div>
 
-            <div
-                :class="[
-                    'rounded px-2 py-1 text-xs text-neutral-50 capitalize',
-                    task.status === 'pending'
-                        ? 'bg-yellow-500'
-                        : task.status === 'in-progress'
-                        ? 'bg-blue-500'
-                        : 'bg-green-500',
-                ]"
-            >
-                {{ task.status.replace("-", " ") }}
-            </div>
+            <StatusTag :tag="task.status" />
         </div>
     </Link>
 </template>

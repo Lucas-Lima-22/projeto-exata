@@ -12,9 +12,9 @@ const form = useForm({
     <Head>
         <title>New Task</title>
     </Head>
-    <div class="h-full grid place-items-center">
+    <div class="grid h-full place-items-center">
         <div
-            class="w-full sm:max-w-md bg-neutral-50 rounded-lg shadow-lg divide-y"
+            class="w-full divide-y rounded-lg bg-neutral-50 shadow-lg sm:max-w-md"
         >
             <div class="p-4 sm:p-8">
                 <h2 class="text-2xl">Create a New Task</h2>
@@ -24,7 +24,7 @@ const form = useForm({
             </div>
             <form
                 @submit.prevent="form.post('/tasks')"
-                class="p-4 space-y-4 sm:p-8 sm:space-y-8"
+                class="space-y-4 p-4 sm:space-y-8 sm:p-8"
             >
                 <div class="space-y-2">
                     <div class="flex justify-between">
@@ -39,7 +39,7 @@ const form = useForm({
                         type="text"
                         id="title"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.title },
                         ]"
                         placeholder="Enter a title"
@@ -60,7 +60,7 @@ const form = useForm({
                     <textarea
                         id="description"
                         :class="[
-                            'p-4 border w-full rounded-lg resize-none',
+                            'w-full resize-none rounded-lg border p-4',
                             { 'border-red-500': form.errors.description },
                         ]"
                         rows="5"
@@ -88,7 +88,7 @@ const form = useForm({
                         name="status"
                         id="status"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.status },
                         ]"
                         v-model="form.status"
@@ -103,14 +103,14 @@ const form = useForm({
                 <div class="flex flex-col gap-4">
                     <button
                         type="submit"
-                        class="bg-cyan-500 hover:bg-cyan-600 rounded-lg p-4"
+                        class="rounded-lg bg-cyan-500 p-4 hover:bg-cyan-600"
                         :disabled="form.processing"
                     >
-                        <span class="text-neutral-50 font-medium">CREATE</span>
+                        <span class="font-medium text-neutral-50">CREATE</span>
                     </button>
                     <Link
                         href="/"
-                        class="bg-neutral-300 hover:bg-neutral-400 rounded-lg p-4 text-center"
+                        class="rounded-lg bg-neutral-300 p-4 text-center hover:bg-neutral-400"
                     >
                         <span class="font-medium">CANCEL</span>
                     </Link>

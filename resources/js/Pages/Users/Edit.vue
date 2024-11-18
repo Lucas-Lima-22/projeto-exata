@@ -17,9 +17,9 @@ const form = useForm({
     <Head>
         <title>Settings</title>
     </Head>
-    <div class="h-screen bg-neutral-100 grid place-items-center">
+    <div class="grid h-screen place-items-center bg-neutral-100">
         <div
-            class="w-full sm:max-w-md bg-neutral-50 rounded-lg shadow-lg divide-y"
+            class="w-full divide-y rounded-lg bg-neutral-50 shadow-lg sm:max-w-md"
         >
             <div class="p-4 sm:p-8">
                 <h2 class="text-2xl">Manage Account</h2>
@@ -36,7 +36,7 @@ const form = useForm({
                             : undefined,
                     })).put(`/users/${user.id}`)
                 "
-                class="p-4 space-y-4 sm:p-8 sm:space-y-8"
+                class="space-y-4 p-4 sm:space-y-8 sm:p-8"
             >
                 <div class="space-y-2">
                     <div class="flex justify-between">
@@ -50,7 +50,7 @@ const form = useForm({
                     <select
                         id="profile"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.profile },
                         ]"
                         v-model="form.profile"
@@ -75,7 +75,7 @@ const form = useForm({
                         type="text"
                         id="email"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.email },
                         ]"
                         placeholder="Enter your email"
@@ -101,7 +101,7 @@ const form = useForm({
                         type="password"
                         id="current_password"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.current_password },
                         ]"
                         placeholder="Enter your current password"
@@ -124,7 +124,7 @@ const form = useForm({
                         type="password"
                         id="password"
                         :class="[
-                            'p-4 border w-full rounded-lg',
+                            'w-full rounded-lg border p-4',
                             { 'border-red-500': form.errors.password },
                         ]"
                         placeholder="Create a new password"
@@ -139,16 +139,16 @@ const form = useForm({
                 <div class="flex flex-col gap-4">
                     <button
                         type="submit"
-                        class="bg-cyan-500 hover:bg-cyan-600 rounded-lg p-4"
+                        class="rounded-lg bg-cyan-500 p-4 hover:bg-cyan-600"
                         :disabled="form.processing"
                     >
-                        <span class="text-neutral-50 font-medium">
+                        <span class="font-medium text-neutral-50">
                             UPDATE
                         </span>
                     </button>
                     <Link
                         href="/"
-                        class="bg-neutral-300 hover:bg-neutral-400 rounded-lg p-4 text-center"
+                        class="rounded-lg bg-neutral-300 p-4 text-center hover:bg-neutral-400"
                     >
                         <span class="font-medium">CANCEL</span>
                     </Link>
