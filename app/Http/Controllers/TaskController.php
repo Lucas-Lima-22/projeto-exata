@@ -61,13 +61,13 @@ class TaskController extends Controller
 
         $task->update($validated);
 
-        return redirect('/tasks/' . $task->id)->with("message", "Your task has been updated successfully.");
+        return redirect('/tasks/' . $task->id)->with("message", "The task has been updated successfully.");
     }
 
     public function destroy(Task $task)
     {
         $task->delete();
 
-        return redirect("/")->with("message", "Your task has been deleted successfully.");
+        return redirect()->back()->with("message", "The task has been deleted successfully.");
     }
 }

@@ -47,7 +47,6 @@ const pagination = computed(() => {
                     <select
                         class="flex-1 rounded border p-2 sm:w-40"
                         v-model="form.status"
-                        :disabled="tasks.data.length === 0 && !query"
                     >
                         <option value="" disabled>Status</option>
                         <option value="all">All</option>
@@ -58,7 +57,6 @@ const pagination = computed(() => {
                     <select
                         class="flex-1 rounded border p-2 sm:w-40"
                         v-model="form.order"
-                        :disabled="tasks.data.length === 0 && !query"
                     >
                         <option value="" disabled>Order By</option>
                         <option value="title">Title</option>
@@ -87,15 +85,9 @@ const pagination = computed(() => {
                 />
             </div>
 
-            <div v-else-if="!tasks.data.length && query">
-                <p class="text-center text-lg opacity-50">
-                    There are no {{ query.status }} tasks at the moment.
-                </p>
-            </div>
-
             <div v-else>
                 <p class="text-center text-lg opacity-50">
-                    There are no tasks available.
+                    No tasks were found.
                 </p>
             </div>
         </div>

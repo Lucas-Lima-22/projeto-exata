@@ -44,6 +44,8 @@ defineProps({
                 <i class="fa-solid fa-pen-to-square" />
             </Link>
             <Link
+                as="BUTTON"
+                method="DELETE"
                 :href="`/tasks/${task.id}`"
                 class="opacity-50 hover:opacity-100"
             >
