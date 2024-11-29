@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\TaskStatus;
+use Exception;
 use App\Models\Task;
+use App\Enums\TaskStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
@@ -66,8 +68,16 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        $task->delete();
+        try {
+            $task->delete();
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage();
+        }
 
-        return redirect()->back()->with("message", "The task has been deleted successfully.");
+        if (str_contains(URL::previous(), '/admin')) {
+            return redirect()->back()->with("message", "The task has been deleted successfully.");
+        } else {
+            return redirect('/')->with("message", "The task has been deleted successfully.");
+        }
     }
 }

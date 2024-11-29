@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use App\Enums\UserProfille;
 use Illuminate\Support\Arr;
@@ -56,7 +57,11 @@ class UserController extends Controller
     {
         Auth::logout();
 
-        $user->delete();
+        try {
+            $user->delete();
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage();
+        }
 
         return redirect("login")->with("message", "Your profile has been deleted successfully.");
     }

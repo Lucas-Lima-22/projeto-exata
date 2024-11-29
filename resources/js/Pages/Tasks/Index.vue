@@ -42,10 +42,7 @@ const pagination = computed(() => {
                     @change="
                         form.transform((data) => ({
                             status:
-                                data.status === '' || data.status === 'all'
-                                    ? undefined
-                                    : data.status,
-                            order: data.order === '' ? undefined : data.order,
+                                data.status === 'all' ? undefined : data.status,
                         })).get('/')
                     "
                     class="flex gap-4"

@@ -6,7 +6,7 @@ import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     tasks: Object,
-    query: Array,
+    query: Object,
 });
 
 const form = useForm({
@@ -32,14 +32,11 @@ const pagination = computed(() => {
                 class="flex flex-col gap-4 sm:flex-row-reverse sm:items-center sm:justify-between"
             >
                 <form
-                    @submit.prevent
+                    @submit.prevent="console.log('deu')"
                     @change="
                         form.transform((data) => ({
                             status:
-                                data.status === '' || data.status === 'all'
-                                    ? undefined
-                                    : data.status,
-                            order: data.order === '' ? undefined : data.order,
+                                data.status === 'all' ? undefined : data.status,
                         })).get('/admin')
                     "
                     class="flex gap-4"
