@@ -43,6 +43,10 @@ const pagination = computed(() => {
                         form.transform((data) => ({
                             status:
                                 data.status === 'all' ? undefined : data.status,
+                            order:
+                                data.order === 'latest'
+                                    ? undefined
+                                    : data.order,
                         })).get('/')
                     "
                     class="flex gap-4"

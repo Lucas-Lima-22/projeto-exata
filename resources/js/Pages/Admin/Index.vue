@@ -32,11 +32,15 @@ const pagination = computed(() => {
                 class="flex flex-col gap-4 sm:flex-row-reverse sm:items-center sm:justify-between"
             >
                 <form
-                    @submit.prevent="console.log('deu')"
+                    @submit.prevent
                     @change="
                         form.transform((data) => ({
                             status:
                                 data.status === 'all' ? undefined : data.status,
+                            order:
+                                data.order === 'latest'
+                                    ? undefined
+                                    : data.order,
                         })).get('/admin')
                     "
                     class="flex gap-4"
